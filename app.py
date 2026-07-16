@@ -1,5 +1,5 @@
 from itertools import islice
-import time
+
 from duckduckgo_search import DDGS
 from flask import Flask, request
 
@@ -31,7 +31,6 @@ async def search():
                 if tmp:
                     results = tmp
                     break
-                time.sleep(1)
 
     except exceptions.DDGSException as e:
         # duckduckgo专用异常（限流、访问拒绝）
