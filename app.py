@@ -18,12 +18,12 @@ def run():
 
 
 @app.route('/search', methods=['GET', 'POST'])
-async def search():
+def search():
     keywords, max_results = run()
     results = []
-    with DDGS() as ddgs:
+    with DDGS(timeout=10) as ddgs:
         # 使用DuckDuckGo搜索关键词
-        ddgs_gen = ddgs.text(keywords, safesearch='Off', timelimit='y', backend="lite")
+        ddgs_gen = ddgs.text(keywords, safesearch='Off', timelimit='y', backend="api")
         # 从搜索结果中获取最大结果数
         for r in islice(ddgs_gen, max_results):
             results.append(r)
