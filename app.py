@@ -1,5 +1,5 @@
 from itertools import islice
-
+import time
 from duckduckgo_search import DDGS
 from flask import Flask, request
 
