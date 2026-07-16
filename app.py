@@ -24,7 +24,7 @@ async def search():
     try:
         with DDGS(timeout=10) as ddgs:
             # 使用DuckDuckGo搜索关键词
-            ddgs_gen = ddgs.text(keywords, safesearch='off', timelimit='y', backend="lite")
+            ddgs_gen = ddgs.text(keywords, safesearch='off', backend="lite")
             # 从搜索结果中获取最大结果数
             for r in islice(ddgs_gen, max_results):
                 results.append(r)
