@@ -18,7 +18,7 @@ def run():
 
 
 @app.route('/search', methods=['GET', 'POST'])
-def search():
+async def search():
     keywords, max_results = run()
     results = []
     with DDGS(timeout=10) as ddgs:
@@ -27,6 +27,13 @@ def search():
         # 从搜索结果中获取最大结果数
         for r in islice(ddgs_gen, max_results):
             results.append(r)
+
+    except exceptions.DDGSException as e:
+        # duckduckgo专用异常（限流、访问拒绝）
+        return {'err':str(e)}
+    except Exception as e:
+        # 网络/超时兜底捕获
+        return {'err':str(e)}
 
     # 返回一个json响应，包含搜索结果
     return {'results': results}
