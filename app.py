@@ -21,12 +21,13 @@ def run():
 async def search():
     keywords, max_results = run()
     results = []
-    with DDGS(timeout=10) as ddgs:
-        # 使用DuckDuckGo搜索关键词
-        ddgs_gen = ddgs.text(keywords, safesearch='Off', timelimit='y', backend="api")
-        # 从搜索结果中获取最大结果数
-        for r in islice(ddgs_gen, max_results):
-            results.append(r)
+    try:
+        with DDGS(timeout=10) as ddgs:
+            # 使用DuckDuckGo搜索关键词
+            ddgs_gen = ddgs.text(keywords, safesearch='Off', timelimit='y', backend="api")
+            # 从搜索结果中获取最大结果数
+            for r in islice(ddgs_gen, max_results):
+                results.append(r)
 
     except exceptions.DDGSException as e:
         # duckduckgo专用异常（限流、访问拒绝）
